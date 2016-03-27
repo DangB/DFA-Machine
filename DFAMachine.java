@@ -2,9 +2,10 @@
 public class DFAMachine {
 	private ArrayList<State> stateList;
 	private State currentState;
+	private String stateInput;
 	private String languageInput;
 
-	public DFAMachine {
+	public DFAMachine() {
 		stateList = new ArrayList<State>();
 	}
 
