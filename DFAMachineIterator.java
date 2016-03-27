@@ -20,14 +20,12 @@ public class DFAMachineIterator {
 
 	public void next() {
 		if (!this.hasNext()) {
-
-			throw NoSuchElementException();
+			throw new NoSuchElementException();
 		}
 		index++;
 	}
 
 	public int getIndex() {
-		return index();
+		return index;
 	}
-
 }

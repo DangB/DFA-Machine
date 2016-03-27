@@ -1,8 +1,8 @@
 public class State {
-	private int number;
+	public int number;
 	public Boolean isAccepted;
-	private int ZeroTransition;
-	private int OneTransition;
+	public int ZeroTransition;
+	public int OneTransition;
 
 	public State (int number) {
 		this.number = number;
@@ -13,7 +13,7 @@ public class State {
 	}
 
 	public void setZeroTransition(int n) {
-		ZeroTransion = n;
+		ZeroTransition = n;
 	}
 
 	public void setOneTransition(int n) {
@@ -21,11 +21,18 @@ public class State {
 	}
 
 	public int getZeroTransition() {
-		return ZeroTransion;
+		return ZeroTransition;
 	}
 
 	public int getOneTransition() {
 		return OneTransition;
 	}
+        
+        public void print() {
+            System.out.println("State Number: " + number +
+                    "\nZero Transition: " + ZeroTransition +
+                    "\nOne Transition: " + OneTransition +
+                    "\nAccepted State: " + isAccepted);
+        }
 
 }
