@@ -1,6 +1,6 @@
 public class State {
 	public int number;
-	public Boolean isAccepted;
+	public Boolean isAccepted = false;
 	public int ZeroTransition;
 	public int OneTransition;
 
@@ -19,6 +19,10 @@ public class State {
 	public void setOneTransition(int n) {
 		OneTransition = n;
 	}
+        
+        public void makeAccepting() {
+            isAccepted = true;
+        }
 
 	public int getZeroTransition() {
 		return ZeroTransition;

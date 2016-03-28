@@ -5,17 +5,40 @@ import java.util.StringTokenizer;
 
 public class DFAMachine {
 	private ArrayList<State> stateList;
-        private ArrayList<String> inputList;
-	private State currentState;
 	private String languageInput;
+        private State currentState;
 
 	public DFAMachine() {
 		stateList = new ArrayList<State>();
-                inputList = new ArrayList<String>();
 	}
-
+        
 	public DFAMachineIterator getIterator() {
 		return new DFAMachineIterator(stateList);
+	}
+        
+        public void addState (int n) {
+		stateList.add(new State(n));
+	}
+        
+        public void setCurrentState(int n) {
+            currentState = this.findState(n);
+        }
+        
+        public boolean stateExist(int n) {
+		//Return true is stateList is empty
+		if (stateList.isEmpty()) {
+			return false;
+		}
+
+		DFAMachineIterator itr = this.getIterator();
+		while (itr.hasNext()) {
+			State current = itr.getState();
+			if (current.getNumber() == n) {
+				return true;
+			}
+			itr.next();
+		}
+		return false;
 	}
         
         public State findState(int n) {
@@ -33,55 +56,56 @@ public class DFAMachine {
         }
         
         public void createMachine(ArrayList<String> inputList) {
-            this.inputList = inputList;
             for (String str: inputList) {
                 StringTokenizer st = new StringTokenizer(str, ",");
                 
                 int oldState = Integer.parseInt(st.nextToken());
-                int transition = Integer.parseInt(st.nextToken());
+                int symbol = Integer.parseInt(st.nextToken());
                 int newState = Integer.parseInt(st.nextToken());
-                
-                System.out.println(oldState);
-                System.out.println(transition);
-                System.out.println(newState);
                 
                 if (!stateExist(oldState)) {
                     this.addState(oldState);
-                    findState(oldState).print();
                 }
                 if (!stateExist(newState)) {
                     this.addState(newState);
-                    findState(newState).print();
                 }
-                switch (transition) {
+                switch (symbol) {
                     case 0: findState(oldState).setZeroTransition(newState);
                     break;
                     case 1: findState(oldState).setOneTransition(newState);
                     break;
-                    default: System.err.println("Error: Transition must be a 0 or 1");
+                    default: System.err.println("Error: "
+                            + "Transition must be a 0 or 1");
                 }
             }
         }
-
-	public boolean stateExist(int n) {
-		//Return true is stateList is empty
-		if (stateList.isEmpty()) {
-			return false;
-		}
-
-		DFAMachineIterator itr = this.getIterator();
-		while (itr.hasNext()) {
-			State current = itr.getState();
-			if (current.getNumber() == n) {
-				return true;
-			}
-			itr.next();
-		}
-		return false;
-	}
-
-	public void addState (int n) {
-		stateList.add(new State(n));
-	}
-
+        
+        public void addAcceptingStates(String acceptingStates) {
+            int n;
+            StringTokenizer st = new StringTokenizer(acceptingStates, ",");
+            while (st.hasMoreTokens()) {
+                n = Integer.parseInt(st.nextToken());
+                findState(n).makeAccepting();
+            }
+        }
+        
+        public void runMachine(String languageInput) {
+            this.setCurrentState(1); //Set starting state
+            
+            for (int i=0;i > languageInput.length();i++) {
+                int symbol = Character.getNumericValue(languageInput.charAt(i));
+                switch (symbol) {
+                    case 0: setCurrentState(currentState.getZeroTransition());
+                    break;
+                    case 1: setCurrentState(currentState.getOneTransition());
+                    break;
+                    default: System.err.println("Error: No Transition available");
+                }
+            }
+            if (currentState.isAccepted) {
+                System.out.println("The language is accepted by DFA");
+            } else {
+                System.out.println("The language is NOT accepted by the DFA");
+            }
+        }
 }
