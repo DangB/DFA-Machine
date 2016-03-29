@@ -1,8 +1,8 @@
 public class State {
-	public int number;
-	public Boolean isAccepted = false;
-	public int ZeroTransition;
-	public int OneTransition;
+	public int number; //State number
+	public Boolean isAccepted = false; //Accepted state - default is false
+	public int ZeroTransition; //Links to state after 0 input
+	public int OneTransition; //Links to state after 1 input
 
 	public State (int number) {
 		this.number = number;
@@ -32,6 +32,7 @@ public class State {
 		return OneTransition;
 	}
         
+        //Prints details of the state - FOR DEBUGGING PURPOSES
         public void print() {
             System.out.println("------------------------");
             System.out.println("State Number: " + number +
