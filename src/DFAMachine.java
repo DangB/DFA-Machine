@@ -4,32 +4,38 @@ import java.util.StringTokenizer;
 
 
 public class DFAMachine {
-	private ArrayList<State> stateList;
-	private String languageInput;
-        private State currentState;
-        private ArrayList<Integer> path;
-
+	private ArrayList<State> stateList; //holds all the states
+	private String languageInput; //User input of the language to be read by the machine
+        private State currentState; //Current state
+        private ArrayList<Integer> path; //Holds a record of all the states traversed
+	
+	//Constructor for Machine
 	public DFAMachine() {
 		stateList = new ArrayList<State>();
                 path = new ArrayList<Integer>();
 	}
         
+        //Factory method for Iterator
 	public DFAMachineIterator getIterator() {
 		return new DFAMachineIterator(stateList);
 	}
         
+        //Add state to machine
         public void addState (int n) {
 		stateList.add(new State(n));
 	}
         
+        //Set the current state
         public void setCurrentState(int n) {
             currentState = this.findState(n);
         }
         
+        //Records current state to path
         public void addPath() {
             path.add(currentState.getNumber());
         }
         
+        //Prints path
         public void printPath() {
             System.out.println("DFA State Path");
             for (int i=0;i<path.size();i++) {
@@ -37,6 +43,7 @@ public class DFAMachine {
             }
         }
         
+        //Checks if a state exists in the machine
         public boolean stateExist(int n) {
 		//Return true is stateList is empty
 		if (stateList.isEmpty()) {
@@ -54,6 +61,7 @@ public class DFAMachine {
 		return false;
 	}
         
+        //Finds a specific state and return it
         public State findState(int n) {
             DFAMachineIterator itr = this.getIterator();
             State s = null;
@@ -68,6 +76,7 @@ public class DFAMachine {
             return s;
         }
         
+        //Parses User input commands and creates and add new states based on input
         public void createMachine(ArrayList<String> inputList) {
             for (String str: inputList) {
                 StringTokenizer st = new StringTokenizer(str, ",");
@@ -76,12 +85,15 @@ public class DFAMachine {
                 int symbol = Integer.parseInt(st.nextToken());
                 int newState = Integer.parseInt(st.nextToken());
                 
+                //Creates state if state does not currently exists
                 if (!stateExist(oldState)) {
                     this.addState(oldState);
                 }
                 if (!stateExist(newState)) {
                     this.addState(newState);
                 }
+                
+                //Adds transition information to state
                 switch (symbol) {
                     case 0: findState(oldState).setZeroTransition(newState);
                     break;
@@ -93,6 +105,7 @@ public class DFAMachine {
             }
         }
         
+        //Reads user input and sets state(s) as accepting.
         public void addAcceptingStates(String acceptingStates) {
             int n;
             StringTokenizer st = new StringTokenizer(acceptingStates, ",");
@@ -102,6 +115,10 @@ public class DFAMachine {
             }
         }
         
+        //Reads user language input;
+        //Assumes State 1 is always starting State
+        //Checks the current state ZERO or ONE transition against user input
+        //Moves the current state to the transition state
         public void runMachine(String languageInput) {
             this.setCurrentState(1); //Set starting state
             this.addPath();
@@ -116,6 +133,8 @@ public class DFAMachine {
                 }
                 this.addPath();
             }
+            
+            //Checks if current state is accepted
             if (currentState.isAccepted) {
                 System.out.println("The language is accepted by DFA");
             } else {
