@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+//Iterator helps facilitate the traversing of the State list of the Machine
 public class DFAMachineIterator {
 	private int index;
 	private ArrayList<State> stateList;
