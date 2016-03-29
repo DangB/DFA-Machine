@@ -18,19 +18,23 @@ public class Main {
                 + "Use the form {(old state, symbol, new state),"
                 + "(old state, symbol, new state)...}\n"
                 + "Example: {(1,1,2),(1,0,3),(2,1,3),(2,1,2)}");
-        machineInput = scanner.nextLine();
+        machineInput = scanner.nextLine(); //reads user input for the DFA machine
 
         System.out.println("Enter Accepting State(s)\n"
                 + "Use the form state 1,state 2,...state n"
                 + "\nExample: 2,4,6");
-        acceptingStateInput = scanner.nextLine();
+        acceptingStateInput = scanner.nextLine(); //reads user input for accepting states
 
         System.out.println("Enter Language Input"
                 + "\nExample: 1010");
-        languageInput = scanner.nextLine();
+        languageInput = scanner.nextLine(); //reads user input for language
 
         Pattern pattern = Pattern.compile(tupleRegex);
         Matcher matcher = pattern.matcher(machineInput);
+        
+        //While user input for machine MATCHES the tuple regex form (d,d,d)
+        //Add to input list in machine
+        //Each element of input list is a string of form (d,d,d)
         while(matcher.find()) {
             inputList.add(matcher.group());
         }
