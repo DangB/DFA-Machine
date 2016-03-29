@@ -131,7 +131,7 @@ public class DFAMachine {
                     break;
                     default: System.err.println("Error: No Transition available");
                 }
-                this.addPath();
+                this.addPath(); //record current state to path
             }
             
             //Checks if current state is accepted
